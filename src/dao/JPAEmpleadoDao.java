@@ -32,7 +32,7 @@ public class JPAEmpleadoDao implements Dao<Empleado> {
 			e.printStackTrace();
 		}
 
-		sql = String.format("SET @p0='%s'; CALL `seleccionarempleado`(@p0);", String.valueOf(id));
+		sql = String.format("CALL `seleccionarempleado`(%s);", String.valueOf(id));
 
 		try {
 			java.sql.Statement stm = conectado.createStatement();
@@ -48,6 +48,7 @@ public class JPAEmpleadoDao implements Dao<Empleado> {
 				String dept_no = rs.getString(8);
 
 				emp = new Empleado(emp_no, apellido, oficio, dir, fecha_alt, salario, comision, dept_no);
+				System.out.println(emp);
 			}
 		} catch (SQLException e) {
 
@@ -103,13 +104,13 @@ public class JPAEmpleadoDao implements Dao<Empleado> {
 
 			e.printStackTrace();
 		}
-		sql = "SET @p0=?; SET @p1=?; SET @p2=?; SET @p3=?; SET @p4=?; SET @p5=?; SET @p6=?; SET @p7=?; CALL `insertarempleado`(@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7);";
+		sql = "CALL `insertarempleado`(?, ?, ?, ?, ?, ?, ?, ?);";
 		int filas = 0;
 		try {
 			java.sql.PreparedStatement sentencia = conectado.prepareStatement(sql);
 			sentencia.setString(1, t.getEmp_no());
-			sentencia.setString(2, t.getApellido());
-			sentencia.setString(3, t.getOficio());
+			sentencia.setString(2, t.getApellido().toUpperCase());
+			sentencia.setString(3, t.getOficio().toUpperCase());
 			sentencia.setString(4, t.getDir());
 			sentencia.setString(5, t.getFecha_alt());
 			sentencia.setString(6, t.getSalario());
@@ -152,40 +153,43 @@ public class JPAEmpleadoDao implements Dao<Empleado> {
 				comision = params[6];
 				dept_no = params[7];
 			}
-		} catch (NullPointerException npe) {
 
+			try {
+				conectado = this.miconexion.obtenerConexion();
+			} catch (JAXBException e) {
+
+				e.printStackTrace();
+			}
+
+			// sql = "update emple set emp_no=?, apellido=?, oficio=?, dir=?,
+			// fecha_alt=?, salario=?, comision=?, dept_no=? where emp_no=? ";
+
+			sql = "CALL `actualizarempleado`(?, ?, ?, ?, ?, ?, ?, ?)";
+
+			int filas = 0;
+			try {
+				java.sql.PreparedStatement sentencia = conectado.prepareStatement(sql);
+				sentencia.setString(1, emp_no);
+				sentencia.setString(2, apellido.toUpperCase());
+				sentencia.setString(3, oficio.toUpperCase());
+				sentencia.setString(4, dir);
+				sentencia.setString(5, fecha_alt);
+				sentencia.setString(6, salario);
+				sentencia.setString(7, comision);
+				sentencia.setString(8, dept_no);
+			//	sentencia.setString(9, t.getEmp_no());
+				filas = sentencia.executeUpdate();
+			} catch (SQLException e) {
+
+				e.printStackTrace();
+			}
+			String resultado = (filas > 0) ? "Actualizado" : "No Actualizado";
+			System.out.println(resultado);
+
+			this.miconexion.desconectar(conectado);
+		} catch (ArrayIndexOutOfBoundsException npe) {
+			System.out.println("faltan parámetros");
 		}
-
-		try {
-			conectado = this.miconexion.obtenerConexion();
-		} catch (JAXBException e) {
-
-			e.printStackTrace();
-		}
-
-		sql = "update emple set apellido=?, oficio=?, dir=?, fecha_alt=?, salario=?, comision=?, dept_no=? where emp_no=?  ";
-
-		int filas = 0;
-		try {
-			java.sql.PreparedStatement sentencia = conectado.prepareStatement(sql);
-			sentencia.setString(1, apellido);
-			sentencia.setString(2, oficio);
-			sentencia.setString(3, dir);
-			sentencia.setString(4, fecha_alt);
-			sentencia.setString(5, salario);
-			sentencia.setString(6, comision);
-			sentencia.setString(7, dept_no);
-			sentencia.setString(8, emp_no);
-			filas = sentencia.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		String resultado = (filas > 0) ? "Actualizado" : "No Actualizado";
-		System.out.println(resultado);
-
-		this.miconexion.desconectar(conectado);
-
 	}
 
 	@Override
@@ -197,7 +201,7 @@ public class JPAEmpleadoDao implements Dao<Empleado> {
 			e.printStackTrace();
 		}
 
-		sql = String.format("SET @p0='%s'; CALL `borrarempleado`(@p0);", t.getEmp_no());
+		sql = String.format("CALL `borrarempleado`(%s);", t.getEmp_no());
 
 		try {
 			java.sql.Statement stm = conectado.createStatement();

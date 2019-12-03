@@ -122,7 +122,7 @@ public class Empleado {
 	public String toString() {
 		return "Empleado [emp_no=" + emp_no + ", apellido=" + apellido + ", oficio=" + oficio + ", dir=" + dir
 				+ ", fecha_alt=" + fecha_alt + ", salario=" + salario + ", comision=" + comision + ", dept_no="
-				+ dept_no + "]";
+				+ dept_no + "]\n";
 	}
 	
 	

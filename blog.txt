@@ -1,0 +1,1 @@
+https://blog.codefx.org/techniques/intention-revealing-code-java-8-optional/

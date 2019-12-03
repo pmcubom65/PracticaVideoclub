@@ -21,7 +21,7 @@ public class ConexionBBDD {
 	}
 
 	public ConexionBBDD(String url, String usuario, String password) {
-		super();
+	
 		this.url = url;
 		this.usuario = usuario;
 		this.password = password;
@@ -64,6 +64,7 @@ public class ConexionBBDD {
 		JAXBContext jaxbcontext = JAXBContext.newInstance(ConexionBBDD.class);
 		Unmarshaller unmarshaller = jaxbcontext.createUnmarshaller();
 		ConexionBBDD conexionbbdd = (ConexionBBDD) unmarshaller.unmarshal(new File("BBDD.xml"));
+		
 		String basededatos = conexionbbdd.getUrl();
 		String usuario = conexionbbdd.getUsuario();
 		String password = conexionbbdd.getPassword();
@@ -71,7 +72,7 @@ public class ConexionBBDD {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conexion = DriverManager.getConnection(basededatos, usuario, password);
-		
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();

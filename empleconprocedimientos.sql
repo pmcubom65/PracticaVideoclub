@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-12-2019 a las 17:09:43
+-- Tiempo de generación: 03-12-2019 a las 20:10:32
 -- Versión del servidor: 5.7.17
 -- Versión de PHP: 5.6.30
 
@@ -21,44 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `empleados`
 --
-
-DELIMITER $$
---
--- Procedimientos
---
-CREATE DEFINER=`root`@`localhost` PROCEDURE `borrarempleado` (IN `valor` INT(4))  delete from emple where emp_no=valor$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarempleado` (IN `emp` INT(4), IN `ape` VARCHAR(50) CHARSET latin1, IN `ofi` VARCHAR(50) CHARSET latin1, IN `dir` VARCHAR(50) CHARSET latin1, IN `fec` VARCHAR(50) CHARSET latin1, IN `sal` INT(7), IN `com` INT(7), IN `depn` INT(2))  insert into emple VALUES(emp, ape, ofi, dir, fec, sal, com, depn)$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `listar` ()  MODIFIES SQL DATA
-SELECT * from emple$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `seleccionarempleado` (IN `identificador` INT(4) UNSIGNED)  NO SQL
-SELECT * from emple where emp_no=identificador$$
-
-DELIMITER ;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `depart`
---
-
-CREATE TABLE `depart` (
-  `DEPT_NO` int(2) NOT NULL,
-  `DNOMBRE` varchar(14) COLLATE latin1_spanish_ci DEFAULT NULL,
-  `LOC` varchar(14) COLLATE latin1_spanish_ci DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
-
---
--- Volcado de datos para la tabla `depart`
---
-
-INSERT INTO `depart` (`DEPT_NO`, `DNOMBRE`, `LOC`) VALUES
-(10, 'CONTABILIDAD', 'SEVILLA'),
-(20, 'INVESTIGACION', 'MADRID'),
-(30, 'VENTAS', 'BARCELONA'),
-(40, 'PRODUCCION', 'BILBAO');
 
 -- --------------------------------------------------------
 
@@ -97,17 +59,12 @@ INSERT INTO `emple` (`EMP_NO`, `APELLIDO`, `OFICIO`, `DIR`, `FECHA_ALT`, `SALARI
 (7934, 'MUÑOZ', 'EMPLEADO', 7782, '2009-01-23', 1690, NULL, 10),
 (9999, 'cubo', 'feo', 6699, '2000-10-10', 1000, 10, 10),
 (8888, 'cubo', 'empleado', 7788, '2000-12-12', 1000, 10, 20),
-(9991, 'cubo', 'empleado', 7788, '2000-08-08', 1000, 10, 10);
+(9991, 'cubo', 'empleado', 7788, '2000-08-08', 1000, 10, 10),
+(4442, 'LOPEZ', 'EMPLEADO', 7902, '2003-01-08', 1000, NULL, 20);
 
 --
 -- Índices para tablas volcadas
 --
-
---
--- Indices de la tabla `depart`
---
-ALTER TABLE `depart`
-  ADD PRIMARY KEY (`DEPT_NO`);
 
 --
 -- Indices de la tabla `emple`
