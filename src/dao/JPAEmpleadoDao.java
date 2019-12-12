@@ -12,6 +12,8 @@ import javax.xml.bind.JAXBException;
 import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.Statement;
 
+import modelo.Empleado;
+
 public class JPAEmpleadoDao implements Dao<Empleado> {
 	ConexionBBDD miconexion;
 	String sql;
@@ -177,7 +179,7 @@ public class JPAEmpleadoDao implements Dao<Empleado> {
 				sentencia.setString(6, salario);
 				sentencia.setString(7, comision);
 				sentencia.setString(8, dept_no);
-			//	sentencia.setString(9, t.getEmp_no());
+				// sentencia.setString(9, t.getEmp_no());
 				filas = sentencia.executeUpdate();
 			} catch (SQLException e) {
 
