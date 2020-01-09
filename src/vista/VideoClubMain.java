@@ -36,7 +36,9 @@ public class VideoClubMain {
 		jpm.delete();menu();break;
 	
 	case 4:
-		jpm.getAll(control.tituloPelicula());menu();break;
+		jpm.getAll(control.tituloPelicula()).forEach(i->System.out.println(i));
+		menu();
+		break;
 	default:
 		System.out.println("Opción no válida");menu();break;
 	}

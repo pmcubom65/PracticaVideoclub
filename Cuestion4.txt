@@ -6,3 +6,5 @@ Si no está implementada, primero habría que realizar borrados de registros en 
 Si estuviera activada la clausula ON DELETE CASCADE 
 se borrarían los registros de tabla secundaria cuya clave foránea 
 coincide con la clave primaria eliminada en la tabla primera.
+También se podría hacer desactivando las claves foráneas temporalmente 
+como se ha realizado en el procedimiento `deletemiembros`()

@@ -104,7 +104,7 @@ public class JPAPeliculaDao implements Dao<Pelicula> {
 			e.printStackTrace();
 		}
 
-		sql = "DROP PROCEDURE `modificar_director`";
+		sql = "DROP PROCEDURE if exists `modificar_director` ";
 		int filas = 0;
 
 		try {
