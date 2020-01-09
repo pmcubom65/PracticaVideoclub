@@ -1,100 +1,65 @@
 package controlador;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
-import dao.JPAEmpleadoDao;
-import modelo.Empleado;
+
+import modelo.Pelicula;
 
 public class ControlarDatosUsuario {
 
-	public Empleado recogerDatos() {
+	public Pelicula recogerDatos() {
 		Scanner input = new Scanner(System.in);
-		System.out.println("Introduzca codigo");
-		String codigo = input.nextLine();
-		System.out.println("Introduzca apellido");
-		String apellido = input.nextLine();
-		System.out.println("Introduzca oficio");
-		String oficio = input.nextLine();
-		System.out.println("Introduzca codigo director");
-		String codigodir = input.nextLine();
-		System.out.println("Introduzca fecha entrada");
-		String fechaentrada = input.nextLine();
-		System.out.println("Introduzca salario");
-		String salario = input.nextLine();
-		System.out.println("Introduzca comision");
-		String comision = input.nextLine();
-		System.out.println("Introduzca depto");
-		String dpto = input.nextLine();
-		return new Empleado(codigo, apellido.toUpperCase(), oficio.toUpperCase(), codigodir, fechaentrada, salario,
-				comision, dpto);
+		System.out.println("Introduzca titulo");
+		String titulo = input.nextLine();
+		System.out.println("Introduzca director");
+		String director = input.nextLine();
+		System.out.println("Introduzca año de lanzamiento, formato yyyy, si no será nulo");
+		String year = input.nextLine();
+		String year_v=verificaranho(year);
+		System.out.println("Introduzca categoria");
+		String categoria = input.nextLine();
+
+		return new Pelicula(titulo, year_v, director, categoria);
 	}
-
-	public String[] recogerString() {
-		String[] param = new String[8];
-		Scanner input = new Scanner(System.in);
-		System.out.println("Introduzca codigo");
-		String codigo = input.nextLine();
-		param[0] = codigo;
-		System.out.println("Introduzca apellido");
-		String apellido = input.nextLine();
-		param[1] = apellido;
-		System.out.println("Introduzca oficio");
-		String oficio = input.nextLine();
-		param[2] = oficio;
-		System.out.println("Introduzca codigo director");
-		String codigodir = input.nextLine();
-		param[3] = codigodir;
-		System.out.println("Introduzca fecha entrada");
-		String fechaentrada = input.nextLine();
-		param[4] = fechaentrada;
-		System.out.println("Introduzca salario");
-		String salario = input.nextLine();
-		param[5] = salario;
-		System.out.println("Introduzca comision");
-		String comision = input.nextLine();
-		param[6] = comision;
-		System.out.println("Introduzca depto");
-		String dpto = input.nextLine();
-		param[7] = dpto;
-		return param;
-	}
-
-	public Empleado recogerCodigo() {
-		Scanner input = new Scanner(System.in);
-		System.out.println("Introduzca codigo");
-		String codigo = input.nextLine();
-		return new Empleado(codigo);
-	}
-
-	public Empleado saberCodigo(String codigo) {
-
-		return new Empleado(codigo);
-	}
-
-	public void menu(int opcion) {
-		JPAEmpleadoDao jp = new JPAEmpleadoDao();
-		ControlarDatosUsuario cd = new ControlarDatosUsuario();
-		switch (opcion) {
-		case 1:
-			System.out.println(jp.getAll());
-			break;
-		case 2:
-			jp.save(cd.recogerDatos());
-			break;
-		case 3:
-			jp.delete(cd.recogerCodigo());
-			break;
-		case 4:
-			String[] parametros = cd.recogerString();
-			jp.update(new Empleado(parametros[0]), parametros);
-			break;
-		case 5:
-			break;
-		default:
-			System.out.println("no valido");
-			break;
+	
+	
+	
+	public String verificaranho(String y) {
+		String salida="";
+		LocalDate ld=LocalDate.now();
+		int anho=0;
+		try {
+			anho=Integer.parseInt(y);
+			if (anho>ld.getYear()){
+				salida="";
+			}else {
+				salida=y;
+			}
+		}catch(NumberFormatException nfe){
+			salida="";
 		}
-
+		return salida;
 	}
+	
+	
+	public String tituloPelicula() {
+		Scanner input = new Scanner(System.in);
+		System.out.println("Introduzca el titulo de la pelicula");
+		String titulo = input.nextLine();
+		return titulo;
+	}
+	
+	public String categoriaPelicula() {
+		Scanner input = new Scanner(System.in);
+		System.out.println("Introduzca nombre categoria de la pelicula");
+		String categoria = input.nextLine();
+		return categoria;
+	}	
+	
+	
 
+	
 }

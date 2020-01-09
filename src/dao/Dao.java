@@ -5,13 +5,18 @@ import java.util.List;
 import java.util.Optional;
 
 public interface Dao<T> {
-    Optional<T> get(long id);
+    default Optional<T> get(long id) { return null; };
     
-    List<T> getAll();
+    default List<T> getAll() { return null; };
      
-    void save(T t);
+    default void save(T t) {};
      
-    void update(T t, String[] params);
+    default void update(T t, String[] params) {};
      
-    void delete(T t);
+    default void delete(T t) {};
+    
+    default void delete() {};
+    
+    default List<T> getAll(String s) { return null; }
+    default void update(String s) {}
 }

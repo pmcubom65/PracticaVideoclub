@@ -1,0 +1,8 @@
+﻿Cuando se produce el borrado de un registro se puede provocar fallos de integridad,
+la opción de integridad ON DELETE CASCADE (clave secundaria o foránea) hace que
+ no sólo se borren los registros indicados sino todos los relacionados.
+Si no está implementada, primero habría que realizar borrados de registros en las
+ tablas donde el registro borrado sea clave secundaria.
+Si estuviera activada la clausula ON DELETE CASCADE 
+se borrarían los registros de tabla secundaria cuya clave foránea 
+coincide con la clave primaria eliminada en la tabla primera.
