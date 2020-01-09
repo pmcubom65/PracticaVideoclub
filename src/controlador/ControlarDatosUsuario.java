@@ -16,7 +16,8 @@ public class ControlarDatosUsuario {
 		String titulo = input.nextLine();
 		System.out.println("Introduzca director");
 		String director = input.nextLine();
-		System.out.println("Introduzca año de lanzamiento, formato yyyy, si no será nulo");
+		System.out.println("Introduzca año de lanzamiento, formato yyyy, si no será nulo.\n La base de datos tiene tipo dato year(4)"
+				+ "\nrange '1901' to '2155'.");
 		String year = input.nextLine();
 		String year_v=verificaranho(year);
 		System.out.println("Introduzca categoria");
