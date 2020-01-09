@@ -16,8 +16,8 @@ public class ControlarDatosUsuario {
 		String titulo = input.nextLine();
 		System.out.println("Introduzca director");
 		String director = input.nextLine();
-		System.out.println("Introduzca año de lanzamiento, formato yyyy, si no será nulo.\n La base de datos tiene tipo dato year(4)"
-				+ "\nrange '1901' to '2155'.");
+		System.out.println("Introduzca año de lanzamiento, formato yyyy, si no será nulo.\nLa base de datos tiene tipo dato year(4)"
+				+ "range '1901' to '2155'. Si no será nulo.");
 		String year = input.nextLine();
 		String year_v=verificaranho(year);
 		System.out.println("Introduzca categoria");
@@ -36,7 +36,10 @@ public class ControlarDatosUsuario {
 			anho=Integer.parseInt(y);
 			if (anho>ld.getYear()){
 				salida="";
-			}else {
+			}else if (anho<1901) {
+				salida="";
+			}
+			else {
 				salida=y;
 			}
 		}catch(NumberFormatException nfe){
