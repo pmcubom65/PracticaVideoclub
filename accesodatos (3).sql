@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.1
+-- version 4.7.0
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 09-01-2020 a las 16:52:57
--- Versión del servidor: 8.0.18
--- Versión de PHP: 7.2.24-0ubuntu0.18.04.1
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 10-01-2020 a las 20:28:39
+-- Versión del servidor: 5.7.17
+-- Versión de PHP: 5.6.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -21,6 +21,23 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `accesodatos`
 --
+
+DELIMITER $$
+--
+-- Procedimientos
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deletemiembros` ()  begin SET FOREIGN_KEY_CHECKS=0; delete from members where membership_number IN (select membership_number from payments where payment_date not between subdate(curdate(), interval 3 month) and curdate()); SET FOREIGN_KEY_CHECKS=1; end$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertar_pelicula` (IN `v_title` VARCHAR(300), IN `v_director` VARCHAR(150), IN `v_year_released` YEAR(4), IN `v_category_id` INT(11))  NO SQL
+insert into movies (title, director, year_released, category_id) values (v_title, v_director, v_year_released, v_category_id)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `modificar_director` (IN `v_category_name` VARCHAR(150))  NO SQL
+update movies set director='director modificado' where category_id=(select category_id from categories where category_name=v_category_name)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `mostrar_miembros_rental` (IN `v_title` VARCHAR(150))  NO SQL
+SELECT m.membership_number, m.full_names, m.contact_number, m.date_of_birth, m.email, m.gender, m.physical_address, m.postal_address FROM members m, movies mo, movierentals r where m.membership_number=r.membership_number and mo.movie_id=r.movie_id and mo.title=v_title and transaction_date between subdate(curdate(), interval 1 month) and curdate()$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -99,7 +116,8 @@ INSERT INTO `movierentals` (`reference_number`, `transaction_date`, `return_date
 (12, '2012-06-22', '2012-06-25', 1, 2, b'0'),
 (13, '2012-06-22', '2012-06-25', 3, 2, b'0'),
 (14, '2012-06-21', '2012-06-24', 2, 2, b'0'),
-(15, '2012-06-23', NULL, 3, 3, b'0');
+(15, '2012-06-23', NULL, 3, 3, b'0'),
+(16, '2020-01-09', NULL, 1, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -120,7 +138,7 @@ CREATE TABLE `movies` (
 --
 
 INSERT INTO `movies` (`movie_id`, `title`, `director`, `year_released`, `category_id`) VALUES
-(1, 'Pirates of the Caribean 4', ' Rob Marshall', 2011, 1),
+(1, 'Pirates of the Caribean 4', 'director modificado', 2011, 1),
 (2, 'Forgetting Sarah Marshal', 'Nicholas Stoller', 2008, 2),
 (3, 'X-Men', NULL, 2008, NULL),
 (4, 'Code Name Black', 'Edgar Jimz', 2010, NULL),
@@ -203,31 +221,26 @@ ALTER TABLE `payments`
 --
 ALTER TABLE `categories`
   MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
 --
 -- AUTO_INCREMENT de la tabla `members`
 --
 ALTER TABLE `members`
   MODIFY `membership_number` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
 --
 -- AUTO_INCREMENT de la tabla `movierentals`
 --
 ALTER TABLE `movierentals`
-  MODIFY `reference_number` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-
+  MODIFY `reference_number` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT de la tabla `movies`
 --
 ALTER TABLE `movies`
-  MODIFY `movie_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
-
+  MODIFY `movie_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT de la tabla `payments`
 --
 ALTER TABLE `payments`
   MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
 --
 -- Restricciones para tablas volcadas
 --

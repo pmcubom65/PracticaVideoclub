@@ -3,6 +3,7 @@ package dao;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +11,7 @@ import javax.xml.bind.JAXBException;
 
 import com.mysql.jdbc.CallableStatement;
 import com.mysql.jdbc.Statement;
+
 
 import modelo.Pelicula;
 
@@ -132,5 +134,73 @@ public class JPAPeliculaDao implements Dao<Pelicula> {
 		this.miconexion.desconectar(conectado);
 
 	}
+	
+	
+	
+	
+	
+	
+	@Override
+	public List<Pelicula> getAll() {
+		List<Pelicula> lista = new ArrayList<>();
+
+		try {
+			conectado = this.miconexion.obtenerConexion();
+		} catch (JAXBException e) {
+
+			e.printStackTrace();
+		}
+
+		sql = "CALL `listarpelis`()";
+
+		try {
+			java.sql.Statement stm = conectado.createStatement();
+			rs = stm.executeQuery(sql);
+			while (rs.next()) {
+				String elmovie_id = String.valueOf(rs.getInt(1));
+				String eltitulo = rs.getString(2);
+				String eldirector = rs.getString(3);
+				String elanyo = rs.getString(4);
+				String elcategoria = String.valueOf(rs.getInt(5));
+		
+
+				lista.add(new Pelicula(eltitulo, eldirector, elanyo, elcategoria));
+			}
+		} catch (SQLException e) {
+
+		}
+		this.miconexion.desconectar(conectado);
+
+		return lista;
+	}
+	
+	
+	public static void main(String[] args) {
+		JPAPeliculaDao midao=new JPAPeliculaDao();
+		System.out.println(midao.getAll());
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

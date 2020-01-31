@@ -12,6 +12,8 @@ public interface Dao<T> {
     default void save(T t) {};
      
     default void update(T t, String[] params) {};
+    
+    default void update(T t) {};
      
     default void delete(T t) {};
     

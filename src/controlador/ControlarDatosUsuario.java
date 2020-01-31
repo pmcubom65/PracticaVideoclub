@@ -51,14 +51,14 @@ public class ControlarDatosUsuario {
 	
 	public String tituloPelicula() {
 		Scanner input = new Scanner(System.in);
-		System.out.println("Introduzca el titulo de la pelicula");
+		System.out.println("Introduzca el titulo de la pelicula, por ejemplo Pirates of the Caribean 4");
 		String titulo = input.nextLine();
 		return titulo;
 	}
 	
 	public String categoriaPelicula() {
 		Scanner input = new Scanner(System.in);
-		System.out.println("Introduzca nombre categoria de la pelicula");
+		System.out.println("Introduzca nombre categoria de la pelicula. Por ejemplo Comedy, Romantic, Epic... ");
 		String categoria = input.nextLine();
 		return categoria;
 	}	
