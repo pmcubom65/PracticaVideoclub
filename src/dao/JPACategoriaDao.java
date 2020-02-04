@@ -58,6 +58,43 @@ public class JPACategoriaDao implements Dao<Categoria> {
 		this.miconexion.desconectar(conectado);
 
 	}
+	
+	
+	
+	public Optional<Categoria> get(long id) {
+		String category_id="";
+		String category_name="";
+		String remarks="";
+		
+		try {
+			conectado = this.miconexion.obtenerConexion();
+		} catch (JAXBException e) {
+
+			e.printStackTrace();
+		}
+		String sql="call damelacategoria (?);";
+
+		try {
+			java.sql.PreparedStatement ps=conectado.prepareStatement(sql);
+			ps.setLong(1, id);
+			ResultSet rs=ps.executeQuery();
+			while (rs.next()) {
+				category_id=String.valueOf(rs.getInt(1));
+				category_name=rs.getString(2);
+				remarks=rs.getString(3);
+				
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Categoria c=new Categoria(category_id,category_name , remarks);
+		Optional<Categoria> op=Optional.of(c);
+		
+		return op;
+		
+	}
 
 	
 	
@@ -100,10 +137,10 @@ public class JPACategoriaDao implements Dao<Categoria> {
 	public static void main(String[] args) {
 		JPACategoriaDao midao=new JPACategoriaDao();
 		
-		Categoria mc=new Categoria("Terrorificos", "para mayoressss");
+	//	Categoria mc=new Categoria("Terrorificos", "para mayoressss");
 		
 		
-		midao.save(mc);
+		System.out.println(midao.get(1));
 	}
 	
 	
